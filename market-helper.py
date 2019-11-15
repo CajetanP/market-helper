@@ -57,7 +57,7 @@ sydney = sydney_session(now)
 next_sydney = sydney_session(now + timedelta(days=1))
 
 # Time changer for testing
-# now = now.replace(hour=23, minute=0, second=0, microsecond=0)
+# now = now.replace(hour=15, minute=0, second=0, microsecond=0)
 
 print("Today is", colored(now.strftime("%A, %d %B %Y"), 'yellow'))
 print("The time is", colored(now.strftime("%-I:%M:%S %p"), 'yellow'), "\n")
@@ -133,4 +133,43 @@ else:
 print()
 print(colored('Stock Markets', 'blue'), "\n")
 
+## LSE
+
+lse = london_stock_exchange(now)
+
+print("London Stock Exchange (8 AM - 4:30 PM)")
+if now < lse[0]:
+    time_to_open = lse[0] - now
+    msg = "Closed, opens in {}".format(clean_timedelta(time_to_open))
+    print(colored(msg, 'red'))
+elif now >= lse[0] and now <= lse[1]:
+    time_to_close = lse[1] - now
+    msg = "Open, closes in {}".format(clean_timedelta(time_to_close))
+    print(colored(msg, 'green'))
+else:
+    next_lse = london_stock_exchange(now + timedelta(days=1))
+    time_to_open = next_lse[0] - now
+    msg = "Closed, opens in {}".format(clean_timedelta(time_to_open))
+    print(colored(msg, 'red'))
+
+print()
+
+## NASDAQ & NYSE
+
+nasdaq_nyse = nasdaq_and_nyse(now)
+
+print("NASDAQ & New York Stock Exchange (2:30 PM - 9 PM)")
+if now < nasdaq_nyse[0]:
+    time_to_open = nasdaq_nyse[0] - now
+    msg = "Closed, opens in {}".format(clean_timedelta(time_to_open))
+    print(colored(msg, 'red'))
+elif now >= nasdaq_nyse[0] and now <= nasdaq_nyse[1]:
+    time_to_close = nasdaq_nyse[1] - now
+    msg = "Open, closes in {}".format(clean_timedelta(time_to_close))
+    print(colored(msg, 'green'))
+else:
+    next_nasdaq_nyse = nasdaq_and_nyse(now + timedelta(days=1))
+    time_to_open = next_new_york[0] - now
+    msg = "Closed, opens in {}".format(clean_timedelta(time_to_open))
+    print(colored(msg, 'red'))
 
