@@ -4,6 +4,8 @@ from datetime import datetime, timedelta
 
 # TODO: weekends
 
+## Forex Sessions
+
 def tokyo_session(date):
     open = date.replace(hour=00, minute=0, second=0, microsecond=0)
     close = date.replace(hour=9, minute=0, second=0, microsecond=0)
@@ -27,9 +29,23 @@ def sydney_session(date):
     close = date.replace(hour=5, minute=0, second=0, microsecond=0)
     return (open, close)
 
+## Stock Markets
+
+def london_stock_exchange(date):
+    open = date.replace(hour=8, minute=0, second=0, microsecond=0)
+    close = date.replace(hour=16, minute=30, second=0, microsecond=0)
+    return (open, close)
+
+def nasdaq_and_nyse(date):
+    open = date.replace(hour=14, minute=30, second=0, microsecond=0)
+    close = date.replace(hour=21, minute=00, second=0, microsecond=0)
+    return (open, close)
+
+## Utils
 
 def clean_timedelta(delta):
     return str(delta).split(".")[0]
+
 
 now = datetime.now()
 
@@ -113,5 +129,8 @@ else:
     time_to_open = next_new_york[0] - now
     msg = "Closed, opens in {}".format(clean_timedelta(time_to_open))
     print(colored(msg, 'red'))
+
+print()
+print(colored('Stock Markets', 'blue'), "\n")
 
 
