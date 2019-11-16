@@ -49,7 +49,7 @@ def clean_timedelta(delta):
 
 now = datetime.now()
 
-london = london_session(now)
+london_open, london_close = london_session(now)
 new_york = new_york_session(now)
 tokyo = tokyo_session(now)
 
@@ -98,17 +98,17 @@ print()
 ## London
 
 print("London Session (8 AM - 4 PM)")
-if now < london[0]: # Before open
-    time_to_open = london[0] - now
+if now < london_open: # Before open
+    time_to_open = london_open - now
     msg = "Closed, opens in {}".format(clean_timedelta(time_to_open))
     print(colored(msg, 'red'))
-elif now >= london[0] and now <= london[1]: # Open
-    time_to_close = london[1] - now
+elif now >= london_open and now <= london_close: # Open
+    time_to_close = london_close - now
     msg = "Open, closes in {}".format(clean_timedelta(time_to_close))
     print(colored(msg, 'green'))
 else: # After open
-    next_london = london_session(now + timedelta(days=1))
-    time_to_open = next_london[0] - now
+    next_london_open, _ = london_session(now + timedelta(days=1))
+    time_to_open = next_london_open - now
     msg = "Closed, opens in {}".format(clean_timedelta(time_to_open))
     print(colored(msg, 'red'))
 print()
