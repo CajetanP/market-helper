@@ -143,7 +143,7 @@ if now < lse_open:
     msg = "Closed, opens in {}".format(clean_timedelta(time_to_open))
     print(colored(msg, 'red'))
 elif now >= lse_open and now <= lse_close:
-    time_to_close = lse[1] - now
+    time_to_close = lse_close - now
     msg = "Open, closes in {}".format(clean_timedelta(time_to_close))
     print(colored(msg, 'green'))
 else:
@@ -156,20 +156,20 @@ print()
 
 ## NASDAQ & NYSE
 
-nasdaq_nyse = nasdaq_and_nyse(now)
+nasdaq_nyse_open, nasdaq_nyse_close = nasdaq_and_nyse(now)
 
 print("NASDAQ & New York Stock Exchange (2:30 PM - 9 PM)")
-if now < nasdaq_nyse[0]:
-    time_to_open = nasdaq_nyse[0] - now
+if now < nasdaq_nyse_open:
+    time_to_open = nasdaq_nyse_open - now
     msg = "Closed, opens in {}".format(clean_timedelta(time_to_open))
     print(colored(msg, 'red'))
-elif now >= nasdaq_nyse[0] and now <= nasdaq_nyse[1]:
-    time_to_close = nasdaq_nyse[1] - now
+elif now >= nasdaq_nyse_open and now <= nasdaq_nyse_close:
+    time_to_close = nasdaq_nyse_close - now
     msg = "Open, closes in {}".format(clean_timedelta(time_to_close))
     print(colored(msg, 'green'))
 else:
-    next_nasdaq_nyse = nasdaq_and_nyse(now + timedelta(days=1))
-    time_to_open = next_new_york[0] - now
+    next_nasdaq_nyse_open, _ = nasdaq_and_nyse(now + timedelta(days=1))
+    time_to_open = next_nasdaq_nyse_open - now
     msg = "Closed, opens in {}".format(clean_timedelta(time_to_open))
     print(colored(msg, 'red'))
 
