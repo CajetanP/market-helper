@@ -135,20 +135,20 @@ print(colored('Stock Markets', 'blue'), "\n")
 
 ## LSE
 
-lse = london_stock_exchange(now)
+lse_open, lse_close = london_stock_exchange(now)
 
 print("London Stock Exchange (8 AM - 4:30 PM)")
-if now < lse[0]:
-    time_to_open = lse[0] - now
+if now < lse_open:
+    time_to_open = lse_open - now
     msg = "Closed, opens in {}".format(clean_timedelta(time_to_open))
     print(colored(msg, 'red'))
-elif now >= lse[0] and now <= lse[1]:
+elif now >= lse_open and now <= lse_close:
     time_to_close = lse[1] - now
     msg = "Open, closes in {}".format(clean_timedelta(time_to_close))
     print(colored(msg, 'green'))
 else:
     next_lse = london_stock_exchange(now + timedelta(days=1))
-    time_to_open = next_lse[0] - now
+    time_to_open = next_lse_open - now
     msg = "Closed, opens in {}".format(clean_timedelta(time_to_open))
     print(colored(msg, 'red'))
 
