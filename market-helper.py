@@ -51,7 +51,7 @@ now = datetime.now()
 
 london_open, london_close = london_session(now)
 new_york_open, new_york_close = new_york_session(now)
-tokyo = tokyo_session(now)
+tokyo_open, tokyo_close = tokyo_session(now)
 
 sydney = sydney_session(now)
 next_sydney = sydney_session(now + timedelta(days=1))
@@ -84,13 +84,13 @@ print()
 ## Tokyo
 
 print("Tokyo Session (12 AM - 9 AM)")
-if now >= tokyo[0] and now <= tokyo[1]: # Open
-    time_to_close = tokyo[1] - now
+if now >= tokyo_open and now <= tokyo_close: # Open
+    time_to_close = tokyo_close - now
     msg = "Open, closes in {}".format(clean_timedelta(time_to_close))
     print(colored(msg, 'green'))
 else: # After open
-    next_tokyo = tokyo_session(now + timedelta(days=1))
-    time_to_open = next_tokyo[0] - now
+    next_tokyo_open, next_tokyo_close = tokyo_session(now + timedelta(days=1))
+    time_to_open = next_tokyo_open - now
     msg = "Closed, opens in {}".format(clean_timedelta(time_to_open))
     print(colored(msg, 'red'))
 print()
