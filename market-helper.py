@@ -53,8 +53,8 @@ london_open, london_close = london_session(now)
 new_york_open, new_york_close = new_york_session(now)
 tokyo_open, tokyo_close = tokyo_session(now)
 
-sydney = sydney_session(now)
-next_sydney = sydney_session(now + timedelta(days=1))
+sydney_open, sydney_close = sydney_session(now)
+next_sydney_open, next_sydney_close = sydney_session(now + timedelta(days=1))
 
 # Time changer for testing
 # now = now.replace(hour=15, minute=0, second=0, microsecond=0)
@@ -67,16 +67,16 @@ print(colored('Forex', 'blue'), "\n")
 ## Sydney
 
 print("Sydney Session (8 PM - 5 AM)")
-if now < sydney[1]: # Before close
-    time_to_close = sydney[1] - now
+if now < sydney_close: # Before close
+    time_to_close = sydney_close - now
     msg = "Open, closes in {}".format(clean_timedelta(time_to_close))
     print(colored(msg, 'green'))
-elif now >= sydney[1] and now <= next_sydney[0]: # Close
-    time_to_close = next_sydney[0] - now
+elif now >= sydney_close and now <= next_sydney_open: # Close
+    time_to_close = next_sydney_open - now
     msg = "Closed, opens in {}".format(clean_timedelta(time_to_close))
     print(colored(msg, 'red'))
 else: # After close
-    time_to_close = next_sydney[1] - now
+    time_to_close = next_sydney_close - now
     msg = "Open, closes in {}".format(clean_timedelta(time_to_close))
     print(colored(msg, 'green'))
 print()
