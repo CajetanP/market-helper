@@ -4,6 +4,8 @@ from datetime import datetime, timedelta
 
 # TODO: weekends
 
+city = "Glasgow"
+
 ## Forex Sessions
 
 def tokyo_session(date):
@@ -12,9 +14,14 @@ def tokyo_session(date):
     return (open, close)
 
 
-def london_session(date):
+def london_session(date, city="Glasgow"):
     open = date.replace(hour=8, minute=0, second=0, microsecond=0)
     close = date.replace(hour=16, minute=0, second=0, microsecond=0)
+
+    if (city == "Auckland"):
+        open = open + timedelta(hours=13)
+        close = close + timedelta(hours=13)
+
     return (open, close)
 
 
@@ -49,7 +56,7 @@ def clean_timedelta(delta):
 
 now = datetime.now()
 
-london_open, london_close = london_session(now)
+london_open, london_close = london_session(now, city)
 new_york_open, new_york_close = new_york_session(now)
 tokyo_open, tokyo_close = tokyo_session(now)
 
@@ -97,7 +104,11 @@ print()
 
 ## London
 
-print("London Session (8 AM - 4 PM)")
+if city == "Auckland":
+    print("London Session (9 PM - 5 AM)")
+else:
+    print("London Session (8 AM - 4 PM)")
+
 if now < london_open: # Before open
     time_to_open = london_open - now
     msg = "Closed, opens in {}".format(clean_timedelta(time_to_open))
@@ -148,7 +159,7 @@ elif now >= lse_open and now <= lse_close:
     print(colored(msg, 'green'))
 else:
     next_lse = london_stock_exchange(now + timedelta(days=1))
-    time_to_open = next_lse_open - now
+    time_to_open = next_lse[0] - now
     msg = "Closed, opens in {}".format(clean_timedelta(time_to_open))
     print(colored(msg, 'red'))
 
