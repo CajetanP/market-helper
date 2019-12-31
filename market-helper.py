@@ -25,9 +25,14 @@ def london_session(date, city="Glasgow"):
     return (open, close)
 
 
-def new_york_session(date):
+def new_york_session(date, city="Glasgow"):
     open = date.replace(hour=13, minute=0, second=0, microsecond=0)
     close = date.replace(hour=22, minute=0, second=0, microsecond=0)
+
+    if (city == "Auckland"):
+        open = open + timedelta(hours=13)
+        close = close + timedelta(hours=13)
+
     return (open, close)
 
 
@@ -57,7 +62,7 @@ def clean_timedelta(delta):
 now = datetime.now()
 
 london_open, london_close = london_session(now, city)
-new_york_open, new_york_close = new_york_session(now)
+new_york_open, new_york_close = new_york_session(now, city)
 tokyo_open, tokyo_close = tokyo_session(now)
 
 sydney_open, sydney_close = sydney_session(now)
@@ -126,7 +131,13 @@ print()
 
 ## New York
 
-print("New York Session (1 PM - 10 PM)")
+# print(new_york_open.hour)
+
+if city == "Auckland":
+    print("New York Session (2 AM - 11 AM)")
+else:
+    print("New York Session (1 PM - 10 PM)")
+
 if now < new_york_open:
     time_to_open = new_york_open - now
     msg = "Closed, opens in {}".format(clean_timedelta(time_to_open))
