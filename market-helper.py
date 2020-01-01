@@ -9,9 +9,14 @@ city = "Glasgow"
 
 ## Forex Sessions
 
-def tokyo_session(date):
+def tokyo_session(date, city="Glasgow"):
     open = date.replace(hour=00, minute=0, second=0, microsecond=0)
     close = date.replace(hour=9, minute=0, second=0, microsecond=0)
+
+    if (city == "Auckland"):
+        open = open + timedelta(hours=13)
+        close = close + timedelta(hours=13)
+
     return (open, close)
 
 
@@ -108,7 +113,11 @@ print()
 
 ## Tokyo
 
-print("Tokyo Session (12 AM - 9 AM)")
+if city == "Auckland":
+    print("Tokyo Session (1 PM - 10 PM)")
+else:
+    print("Tokyo Session (12 AM - 9 AM)")
+
 if now >= tokyo_open and now <= tokyo_close: # Open
     time_to_close = tokyo_close - now
     msg = "Open, closes in {}".format(clean_timedelta(time_to_close))
