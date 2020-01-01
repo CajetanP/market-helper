@@ -4,6 +4,7 @@ from datetime import datetime, timedelta
 
 # TODO: weekends
 
+# city = "Auckland"
 city = "Glasgow"
 
 ## Forex Sessions
@@ -36,9 +37,14 @@ def new_york_session(date, city="Glasgow"):
     return (open, close)
 
 
-def sydney_session(date):
+def sydney_session(date, city="Glasgow"):
     open = (date - timedelta(days=1)).replace(hour=20, minute=0, second=0, microsecond=0)
     close = date.replace(hour=5, minute=0, second=0, microsecond=0)
+
+    if (city == "Auckland"):
+        open = open + timedelta(hours=13)
+        close = close + timedelta(hours=13)
+
     return (open, close)
 
 ## Stock Markets
@@ -61,12 +67,15 @@ def clean_timedelta(delta):
 
 now = datetime.now()
 
+if (city == "Auckland"):
+    now = now + timedelta(hours=13)
+
 london_open, london_close = london_session(now, city)
 new_york_open, new_york_close = new_york_session(now, city)
 tokyo_open, tokyo_close = tokyo_session(now)
 
-sydney_open, sydney_close = sydney_session(now)
-next_sydney_open, next_sydney_close = sydney_session(now + timedelta(days=1))
+sydney_open, sydney_close = sydney_session(now, city)
+next_sydney_open, next_sydney_close = sydney_session(now + timedelta(days=1), city)
 
 # Time changer for testing
 # now = now.replace(hour=15, minute=0, second=0, microsecond=0)
@@ -78,7 +87,11 @@ print(colored('Forex', 'blue'), "\n")
 
 ## Sydney
 
-print("Sydney Session (8 PM - 5 AM)")
+if city == "Auckland":
+    print("Sydney Session (9 AM - 6 PM)")
+else:
+    print("Sydney Session (8 PM - 5 AM)")
+
 if now < sydney_close: # Before close
     time_to_close = sydney_close - now
     msg = "Open, closes in {}".format(clean_timedelta(time_to_close))
