@@ -4,8 +4,17 @@ from datetime import datetime, timedelta
 
 # TODO: weekends
 
-# city = "Auckland"
-city = "Glasgow"
+city = "Auckland"
+# city = "Glasgow"
+
+def session_info(session, open, close):
+    open_hour = 12 if open.hour == 0 else open.hour
+    close_hour = 12 if close.hour == 0 else close.hour
+
+    starttime = "{} PM".format(open_hour-12) if open_hour > 12 else "{} AM".format(open_hour)
+    endtime = "{} PM".format(close_hour-12) if close_hour > 12 else "{} AM".format(close_hour)
+
+    return "{} Session ({} - {})".format(session, starttime, endtime)
 
 ## Forex Sessions
 
@@ -77,7 +86,7 @@ if (city == "Auckland"):
 
 london_open, london_close = london_session(now, city)
 new_york_open, new_york_close = new_york_session(now, city)
-tokyo_open, tokyo_close = tokyo_session(now)
+tokyo_open, tokyo_close = tokyo_session(now, city)
 
 sydney_open, sydney_close = sydney_session(now, city)
 next_sydney_open, next_sydney_close = sydney_session(now + timedelta(days=1), city)
@@ -113,11 +122,7 @@ print()
 
 ## Tokyo
 
-if city == "Auckland":
-    print("Tokyo Session (1 PM - 10 PM)")
-else:
-    print("Tokyo Session (12 AM - 9 AM)")
-
+print(session_info("Tokyo", tokyo_open, tokyo_close))
 if now >= tokyo_open and now <= tokyo_close: # Open
     time_to_close = tokyo_close - now
     msg = "Open, closes in {}".format(clean_timedelta(time_to_close))
