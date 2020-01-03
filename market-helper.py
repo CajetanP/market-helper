@@ -4,8 +4,8 @@ from datetime import datetime, timedelta
 
 # TODO: weekends
 
-city = "Auckland"
-# city = "Glasgow"
+# city = "Auckland"
+city = "Glasgow"
 
 def session_info(session, open, close):
     open_hour = 12 if open.hour == 0 else open.hour
@@ -101,11 +101,7 @@ print(colored('Forex', 'blue'), "\n")
 
 ## Sydney
 
-if city == "Auckland":
-    print("Sydney Session (9 AM - 6 PM)")
-else:
-    print("Sydney Session (8 PM - 5 AM)")
-
+print(session_info("Sydney", sydney_open, sydney_close))
 if now < sydney_close: # Before close
     time_to_close = sydney_close - now
     msg = "Open, closes in {}".format(clean_timedelta(time_to_close))
