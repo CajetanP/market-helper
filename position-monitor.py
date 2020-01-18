@@ -15,15 +15,17 @@ def get_ticker_info(ticker_data):
                        ticker_data['averageDailyVolume3Month']) ]
 
 def format_ticker_info(ticker_data):
-    return "{:10} | {:7} | {:5}% | {:32} | {}".format(
-        ticker_data[0], ticker_data[1], ticker_data[2], ticker_data[3], ticker_data[4]
+    pnl_colour = 'green' if ticker_data[2] > 0 else 'red'
+
+    return "{:9} | {:6} | {:5}% | {} | {}".format(
+        ticker_data[0], ticker_data[1],
+        colored(ticker_data[2], pnl_colour),
+        colored(ticker_data[3], 'blue'), ticker_data[4]
     )
 
 
 def generate_url(tickers):
     return "https://query1.finance.yahoo.com/v7/finance/quote?lang=en-US&region=US&corsDomain=finance.yahoo.com&symbols={}&fields=regularMarketPrice,regularMarketChangePercent,regularMarketPreviousClose,regularMarketVolume,shortName,twoHundredDayAverage,twoHundredDayAverageChange,averageDailyVolume3Month".format(",".join(tickers))
-
-# (165.7-159.09)/159.09
 
 tickers = ["MSFT", "TWTR", "NKE", "RBS.L", "FORTUM.HE"]
 positions = {
@@ -67,9 +69,9 @@ for t in ticker_quotes:
         total_pnl += pnl
         colour = 'green' if pnl > 0 else 'red'
         # TODO: enable shorts
-        print("{:10} | {:7} | P&L: {} ({}) | {}".format(
-            colored("Long", 'blue'), colored(open_price, 'yellow'),
-            colored(str(round(pnl*5, 2))+"%", colour),
+        print("{}{:5} | {:6} | P&L: {} ({}) | {}".format(
+            colored("Long", 'blue'), "", open_price,
+            colored(str(round(pnl*5, 2))+"%", colour, attrs=['bold']),
             colored(str(pnl)+"%", colour), colored(positions[info[0]]["open_date"], 'yellow')
         ))
     print()
