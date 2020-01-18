@@ -1,18 +1,6 @@
-
-# Some data persistence for storing tickers to watch
-# Processing yahoo finance ticker data to fetch P&L
-# Live refresh (?)
-#
-#
-#
-#
-#
-
-
 import json
 import requests
-
-print("Position monitor\n")
+from termcolor import colored
 
 def analyse_volume(volume, average_volume):
     if volume >= average_volume:
@@ -41,37 +29,52 @@ tickers = ["MSFT", "TWTR", "NKE", "RBS.L", "FORTUM.HE"]
 positions = {
     "MSFT" : {
         "size": 15,
-        "open_price": 159.09
+        "open_price": 159.09,
+        "open_date": "08-01-2020 15:38"
     },
     "TWTR": {
         "size": 15,
-        "open_price": 32.15
+        "open_price": 32.15,
+        "open_date": "07-01-2020 15:23"
     },
     "NKE": {
         "size": 15,
-        "open_price": 101.78
+        "open_price": 101.78,
+        "open_date": "13-01-2020 08:49"
     },
     "RBS.L": {
         "size": 1120,
-        "open_price": 225.0
+        "open_price": 225.0,
+        "open_date": "15-01-2020 12:41"
     },
     "FORTUM.HE": {
         "size": 136,
-        "open_price": 21.59
+        "open_price": 21.59,
+        "open_date": "13-01-2020 08:49"
     }
 }
 
 response = requests.request("GET", generate_url(tickers))
 ticker_quotes = [t for t in json.loads(response.text)['quoteResponse']['result']]
 
+total_pnl = 0.0
 for t in ticker_quotes:
     info = get_ticker_info(t)
     print(format_ticker_info(info))
     if info[0] in positions:
         open_price = positions[info[0]]["open_price"]
         pnl = round(((info[1]/positions[info[0]]["open_price"])-1)*100, 2)
-        print("{:10} | {:7} | P&L: {}% ({}%)".format("Long", open_price, round(pnl*5, 2), pnl))
+        total_pnl += pnl
+        colour = 'green' if pnl > 0 else 'red'
+        # TODO: enable shorts
+        print("{:10} | {:7} | P&L: {} ({}) | {}".format(
+            colored("Long", 'blue'), colored(open_price, 'yellow'),
+            colored(str(round(pnl*5, 2))+"%", colour),
+            colored(str(pnl)+"%", colour), colored(positions[info[0]]["open_date"], 'yellow')
+        ))
     print()
+
+print("Total P&L: {}% ({}%)".format(round(total_pnl*5, 2), round(total_pnl, 2)))
 
 
 
