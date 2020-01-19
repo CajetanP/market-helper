@@ -43,9 +43,9 @@ for t in ticker_quotes:
     pnl = round(((info[1]/positions[info[0]]["open_price"])-1)*100, 2)
     total_pnl += pnl
     colour = 'green' if pnl > 0 else 'red'
-    # TODO: enable shorts
+    direction = 'Long' if positions[info[0]]["size"] > 0 else 'Short'
     print("{}{:5} | {:6} | P&L: {} ({}) | {}".format(
-        colored("Long", 'blue'), "", open_price,
+        colored(direction, 'blue'), "", open_price,
         colored(str(round(pnl*5, 2))+"%", colour, attrs=['bold']),
         colored(str(pnl)+"%", colour), colored(positions[info[0]]["open_date"], 'yellow')
     ))
