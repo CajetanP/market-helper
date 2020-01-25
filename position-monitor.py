@@ -39,11 +39,13 @@ for t in ticker_quotes:
     info = get_ticker_info(t)
     print(format_ticker_info(info))
 
+    direction = 'Long' if positions[info[0]]["size"] > 0 else 'Short'
     open_price = positions[info[0]]["open_price"]
     pnl = round(((info[1]/positions[info[0]]["open_price"])-1)*100, 2)
+    if direction == 'Short':
+        pnl = -pnl
     total_pnl += pnl
     colour = 'green' if pnl > 0 else 'red'
-    direction = 'Long' if positions[info[0]]["size"] > 0 else 'Short'
     print("{}{:5} | {:6} | P&L: {} ({}) | {}".format(
         colored(direction, 'blue'), "", open_price,
         colored(str(round(pnl*5, 2))+"%", colour, attrs=['bold']),
@@ -54,5 +56,5 @@ for t in ticker_quotes:
 print("Total P&L: {}% ({}%)".format(round(total_pnl*5, 2), round(total_pnl, 2)))
 
 
-
+# TODO: include volume
 

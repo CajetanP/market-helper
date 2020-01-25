@@ -1,28 +1,13 @@
 {
-    "MSFT" : {
-        "size": 15,
-        "open_price": 159.09,
-        "open_date": "08-01-2020 15:38"
+    "NUGT": {
+        "size": 25,
+        "open_price": 32.41,
+        "open_date": "22-01-2020 15:35"
     },
-    "TWTR": {
-        "size": 15,
-        "open_price": 32.15,
-        "open_date": "07-01-2020 15:23"
-    },
-    "NKE": {
-        "size": 15,
-        "open_price": 101.78,
-        "open_date": "13-01-2020 08:49"
-    },
-    "RBS.L": {
-        "size": 1120,
-        "open_price": 225.0,
-        "open_date": "15-01-2020 12:41"
-    },
-    "FORTUM.HE": {
-        "size": 136,
-        "open_price": 21.59,
-        "open_date": "13-01-2020 08:49"
+    "AMZN": {
+        "size": 0.4,
+        "open_price": 1893.3,
+        "open_date": "22-01-2020 15:36"
     },
     "VXX": {
         "size": -40,
