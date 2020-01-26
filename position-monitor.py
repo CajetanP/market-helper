@@ -1,4 +1,5 @@
 import json
+import math
 import requests
 from termcolor import colored
 
@@ -46,10 +47,12 @@ for t in ticker_quotes:
         pnl = -pnl
     total_pnl += pnl
     colour = 'green' if pnl > 0 else 'red'
-    print("{}{:5} | {:6} | P&L: {} ({}) | {}".format(
+    print("{}{:5} | {:6} | P&L: {} ({}) | {} | {}".format(
         colored(direction, 'blue'), "", open_price,
         colored(str(round(pnl*5, 2))+"%", colour, attrs=['bold']),
-        colored(str(pnl)+"%", colour), colored(positions[info[0]]["open_date"], 'yellow')
+        colored(str(pnl)+"%", colour),
+        colored(abs(positions[info[0]]["size"]), 'blue'),
+        colored(positions[info[0]]["open_date"], 'yellow'),
     ))
     print()
 
