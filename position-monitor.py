@@ -51,13 +51,10 @@ for t in ticker_quotes:
         colored(direction, 'blue'), "", open_price,
         colored(str(round(pnl*5, 2))+"%", colour, attrs=['bold']),
         colored(str(pnl)+"%", colour),
-        colored(abs(positions[info[0]]["size"]), 'blue'),
+        colored(abs(positions[info[0]]["size"]), 'magenta'),
         colored(positions[info[0]]["open_date"], 'yellow'),
     ))
     print()
 
 print("Total P&L: {}% ({}%)".format(round(total_pnl*5, 2), round(total_pnl, 2)))
-
-
-# TODO: include volume
 
